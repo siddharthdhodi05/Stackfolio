@@ -4,6 +4,7 @@ import morgan from "morgan";
 import colors from "colors";
 
 import connectDB from "#config/db.config.js";
+import { errorHandler } from "#middleware/error.middleware.js";
 
 dotenv.config();
 
@@ -14,6 +15,8 @@ const app = express();
 app.use(morgan("dev"));
 
 connectDB();
+
+app.use(errorHandler);
 
 app.get("/", (req, res) => {
   res.send("API is running... ");

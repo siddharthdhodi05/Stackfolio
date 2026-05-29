@@ -15,7 +15,8 @@
   "imports": {
     "#config/*": "./server/config/*",
     "#data/*": "./server/data/*",
-    "#models/*": "./server/models/*"
+    "#models/*": "./server/models/*",
+    "#middleware/*": "./server/middleware/*"
   },
   "dependencies": {
     "@babel/preset-env": "^7.29.7",
