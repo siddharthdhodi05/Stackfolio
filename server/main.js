@@ -1,5 +1,6 @@
 import express from "express";
 import dotenv from "dotenv";
+import morgan from "morgan";
 
 import connectDB from "#config/db.config.js";
 
@@ -8,6 +9,9 @@ dotenv.config();
 const port = process.env.PORT || 5001;
 
 const app = express();
+
+app.use(morgan("dev"));
+
 connectDB();
 
 app.get("/", (req, res) => {
