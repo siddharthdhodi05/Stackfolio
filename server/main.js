@@ -1,6 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
 import morgan from "morgan";
+import colors from "colors";
 
 import connectDB from "#config/db.config.js";
 
@@ -20,6 +21,7 @@ app.get("/", (req, res) => {
 
 app.listen(port, () => {
   console.log(
-    `Server is running in ${process.env.NODE_ENV} mode on port ${port}`,
+    `Server is running in ${process.env.NODE_ENV} mode on port ${port}`.yellow
+      .bold,
   );
 });
