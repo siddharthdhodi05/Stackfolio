@@ -2,6 +2,7 @@ import express from "express";
 import dotenv from "dotenv";
 import morgan from "morgan";
 import colors from "colors";
+import cookieParser from "cookie-parser";
 
 import connectDB from "#config/db.config.js";
 import { errorHandler } from "#middleware/error.middleware.js";
@@ -19,6 +20,7 @@ connectDB();
 
 app.use(express.json()); //Request body parsing
 app.use(errorHandler);
+app.use(cookieParser());
 app.use("/api/v1/users", userRoutes);
 
 app.get("/", (req, res) => {
