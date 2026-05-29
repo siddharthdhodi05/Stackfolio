@@ -5,6 +5,7 @@ import colors from "colors";
 
 import connectDB from "#config/db.config.js";
 import { errorHandler } from "#middleware/error.middleware.js";
+import userRoutes from "#routes/user.routes.js";
 
 dotenv.config();
 
@@ -17,6 +18,7 @@ app.use(morgan("dev"));
 connectDB();
 
 app.use(errorHandler);
+app.use("/api/v1/users", userRoutes);
 
 app.get("/", (req, res) => {
   res.send("API is running... ");

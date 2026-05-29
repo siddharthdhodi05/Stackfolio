@@ -16,7 +16,9 @@
     "#config/*": "./server/config/*",
     "#data/*": "./server/data/*",
     "#models/*": "./server/models/*",
-    "#middleware/*": "./server/middleware/*"
+    "#middleware/*": "./server/middleware/*",
+    "#controllers/*": "./server/controllers/*",
+    "#routes/*": "./server/routes/*"
   },
   "dependencies": {
     "@babel/preset-env": "^7.29.7",
