@@ -17,6 +17,7 @@ app.use(morgan("dev"));
 
 connectDB();
 
+app.use(express.json()); //Request body parsing
 app.use(errorHandler);
 app.use("/api/v1/users", userRoutes);
 
