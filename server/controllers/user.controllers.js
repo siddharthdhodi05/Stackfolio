@@ -8,8 +8,10 @@ import UserModel from "#models/user.model.js";
  * @access	Public
  */
 const authUser = async (req, res) => {
-  const { email, password } = req.body;
-  const user = await UserModel.findOne({ email });
+  const { identifier, password } = req.body;
+  const user = await UserModel.findOne({
+    $or: [{ email: identifier }, { username: identifier }],
+  });
 
   if (user && (await user.matchPassword(password))) {
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
@@ -26,6 +28,7 @@ const authUser = async (req, res) => {
     res.json({
       _id: user._id,
       name: user.name,
+      username: user.username,
       email: user.email,
     });
   } else {
