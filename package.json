@@ -18,7 +18,8 @@
     "#models/*": "./server/models/*",
     "#middleware/*": "./server/middleware/*",
     "#controllers/*": "./server/controllers/*",
-    "#routes/*": "./server/routes/*"
+    "#routes/*": "./server/routes/*",
+    "#utils/*": "./server/utils/*"
   },
   "dependencies": {
     "@babel/preset-env": "^7.29.7",

@@ -1,6 +1,5 @@
-import jwt from "jsonwebtoken";
-
 import UserModel from "#models/user.model.js";
+import generateToken from "#utils/generate-token.utils.js";
 
 /**
  * @desc		Auth user
@@ -14,17 +13,7 @@ const authUser = async (req, res) => {
   });
 
   if (user && (await user.matchPassword(password))) {
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
-      expiresIn: "30d",
-    });
-
-    res.cookie("jwt", token, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV !== "development",
-      sameSite: "strict",
-      maxAge: 30 * 24 * 60 * 60 * 1000,
-    });
-
+    generateToken(res, user._id);
     res.json({
       _id: user._id,
       name: user.name,
@@ -43,7 +32,30 @@ const authUser = async (req, res) => {
  * @access	Public
  */
 const registerUser = async (req, res) => {
-  res.send("Register user");
+  const { name, username, email, password } = req.body;
+  const userExists = await UserModel.findOne({
+    $or: [{ email }, { username }],
+  });
+
+  if (userExists) {
+    res.status(400);
+    throw new Error("Email or username already exists");
+  }
+
+  const user = await UserModel.create({ name, username, email, password });
+
+  if (user) {
+    generateToken(res, user._id);
+    res.status(201).json({
+      _id: user._id,
+      name: user.name,
+      username: user.username,
+      email: user.email,
+    });
+  } else {
+    res.status(400);
+    throw new Error("Invalid user data");
+  }
 };
 
 /**
