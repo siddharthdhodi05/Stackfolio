@@ -77,7 +77,18 @@ const logoutUser = async (req, res) => {
  * @access	Private
  */
 const getUserProfile = async (req, res) => {
-  res.send("Get user profile");
+  const user = await UserModel.findById(req.user._id);
+  if (user) {
+    res.status(200).json({
+      _id: user._id,
+      name: user.name,
+      username: user.username,
+      email: user.email,
+    });
+  } else {
+    res.status(404);
+    throw new Error("User not found");
+  }
 };
 
 /**
@@ -86,7 +97,29 @@ const getUserProfile = async (req, res) => {
  * @access	Private
  */
 const updateUserProfile = async (req, res) => {
-  res.send("Update user profile");
+  const user = await UserModel.findById(req.user._id);
+  if (user) {
+    user.name = req.body.name || user.name;
+    user.email = req.body.email || user.email;
+    user.username = req.body.username || user.username;
+
+    if (req.body.password) {
+      user.password = req.body.password;
+    }
+    const updatedUser = await user.save();
+
+    generateToken(res, updatedUser._id);
+
+    res.status(200).json({
+      _id: updatedUser._id,
+      name: updatedUser.name,
+      email: updatedUser.email,
+      username: updatedUser.username,
+    });
+  } else {
+    res.status(404);
+    throw new Error("User not found");
+  }
 };
 
 export {
