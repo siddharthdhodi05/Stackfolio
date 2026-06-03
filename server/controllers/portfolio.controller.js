@@ -1,10 +1,39 @@
+import PortfolioModel from "#models/portfolio.model.js";
+
 /**
  * @desc		Portfolio Creation
  * @route		POST   /api/v1/portfolio
  * @access	Private
  */
 const createPortfolio = async (req, res) => {
-  res.send("Portfolio");
+  const portfolioExists = await PortfolioModel.findOne({ user: req.user._id });
+  if (portfolioExists) {
+    res.status(400);
+    throw new Error("portfolio already exists");
+  }
+  const userId = req.user._id;
+  const { role, description, image, skills, socials } = req.body;
+  const portfolio = await PortfolioModel.create({
+    user: userId,
+    role,
+    description,
+    image,
+    skills,
+    socials,
+  });
+  if (portfolio) {
+    res.status(200).json({
+      user: portfolio.user,
+      role: portfolio.role,
+      description: portfolio.description,
+      image: portfolio.image,
+      skills: portfolio.skills,
+      socials: portfolio.socials,
+    });
+  } else {
+    res.status(400);
+    throw new Error("Invalid portfolio data");
+  }
 };
 
 /**
@@ -13,7 +42,13 @@ const createPortfolio = async (req, res) => {
  * @access	Private
  */
 const getMyPortfolio = async (req, res) => {
-  res.send("Register user");
+  const portfolio = await PortfolioModel.findOne({ user: req.user._id });
+  if (portfolio) {
+    res.status(200).json(portfolio);
+  } else {
+    res.status(404);
+    throw new Error("Portfolio does not exist");
+  }
 };
 
 /**
@@ -22,7 +57,26 @@ const getMyPortfolio = async (req, res) => {
  * @access	Private
  */
 const updatePortfolio = async (req, res) => {
-  res.send("updatePortfolio");
+  const portfolio = await PortfolioModel.findOne({ user: req.user._id });
+  if (portfolio) {
+    portfolio.role = req.body.role || portfolio.role;
+    portfolio.description = req.body.description || portfolio.description;
+    portfolio.image = req.body.image || portfolio.image;
+    portfolio.skills = req.body.skills || portfolio.skills;
+    portfolio.socials = req.body.socials || portfolio.socials;
+
+    const updatedProfile = await portfolio.save();
+    res.status(200).json({
+      role: updatedProfile.role,
+      description: updatedProfile.description,
+      image: updatedProfile.image,
+      skills: updatedProfile.skills,
+      socials: updatedProfile.socials,
+    });
+  } else {
+    res.status(404);
+    throw new Error("Portfolio not found");
+  }
 };
 
 /**
