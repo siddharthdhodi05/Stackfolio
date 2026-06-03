@@ -7,6 +7,7 @@ import cookieParser from "cookie-parser";
 import connectDB from "#config/db.config.js";
 import { errorHandler } from "#middleware/error.middleware.js";
 import userRoutes from "#routes/user.routes.js";
+import portfolioRoutes from "#routes/portfolio.routes.js";
 
 dotenv.config();
 
@@ -22,6 +23,7 @@ app.use(express.json()); //Request body parsing
 app.use(errorHandler);
 app.use(cookieParser());
 app.use("/api/v1/users", userRoutes);
+app.use("/api/v1/portfolio", portfolioRoutes);
 
 app.get("/", (req, res) => {
   res.send("API is running... ");
