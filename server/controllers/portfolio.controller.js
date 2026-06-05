@@ -85,7 +85,28 @@ const updatePortfolio = async (req, res) => {
  * @access	Private
  */
 const createProject = async (req, res) => {
-  res.send("Get user profile");
+  const portfolio = await PortfolioModel.findOne({ user: req.user._id });
+  if (portfolio) {
+    if (portfolio.projects.length >= 6) {
+      res.status(400);
+      throw new Error("Cant store more than 6 project");
+    }
+    const project = {
+      projectName: req.body.projectName,
+      projectImage: req.body.projectImage,
+      projectDescription: req.body.projectDescription,
+      projectStack: req.body.projectStack,
+      github: req.body.github,
+      liveLink: req.body.liveLink,
+    };
+    portfolio.projects.push(project);
+    await portfolio.save();
+    const newProject = portfolio.projects[portfolio.projects.length - 1];
+    res.status(201).json(newProject);
+  } else {
+    res.status(404);
+    throw new Error("Portfolio not found");
+  }
 };
 
 /**
@@ -94,7 +115,17 @@ const createProject = async (req, res) => {
  * @access	Private
  */
 const getProjects = async (req, res) => {
-  res.send("Update user profile");
+  const portfolio = await PortfolioModel.findOne({ user: req.user._id });
+  if (!portfolio) {
+    res.status(404).json("Portfolio not found");
+  }
+  const projects = portfolio.projects;
+  // console.log(portfolio.projects);
+
+  if (projects.length === 0) {
+    res.status(404).json("No project created");
+  }
+  res.status(200).json(projects);
 };
 
 /**
@@ -103,7 +134,23 @@ const getProjects = async (req, res) => {
  * @access	Private
  */
 const getProjectById = async (req, res) => {
-  res.send("Update user profile");
+  const portfolio = await PortfolioModel.findOne({
+    user: req.user._id,
+  });
+
+  if (!portfolio) {
+    res.status(404);
+    throw new Error("Portfolio not found");
+  }
+
+  const project = portfolio.projects.id(req.params.projectId);
+
+  if (!project) {
+    res.status(404);
+    throw new Error("Project not found");
+  }
+
+  res.status(200).json(project);
 };
 
 /**
