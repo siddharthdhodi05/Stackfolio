@@ -1,4 +1,5 @@
 import PortfolioModel from "#models/portfolio.model.js";
+import UserModel from "#models/user.model.js";
 
 /**
  * @desc		Portfolio Creation
@@ -159,7 +160,31 @@ const getProjectById = async (req, res) => {
  * @access	Private
  */
 const updateProject = async (req, res) => {
-  res.send("Update Project");
+  const portfolio = await PortfolioModel.findOne({ user: req.user._id });
+
+  if (!portfolio) {
+    res.status(404);
+    throw new Error("Portfolio not found for project update");
+  }
+
+  const project = portfolio.projects.id(req.params.projectId);
+
+  if (!project) {
+    res.status(404);
+    throw new Error("Project not found");
+  }
+
+  project.projectName = req.body.projectName || project.projectName;
+  project.projectImage = req.body.projectImage || project.projectImage;
+  project.projectDescription =
+    req.body.projectDescription || project.projectDescription;
+  project.projectStack = req.body.projectStack || project.projectStack;
+  project.github = req.body.github || project.github;
+  project.liveLink = req.body.liveLink || project.liveLink;
+
+  await portfolio.save();
+
+  res.status(200).json(project);
 };
 
 /**
@@ -168,7 +193,30 @@ const updateProject = async (req, res) => {
  * @access	Private
  */
 const deleteProject = async (req, res) => {
-  res.send("Delete project");
+  const portfolio = await PortfolioModel.findOne({ user: req.user._id });
+
+  if (!portfolio) {
+    res.status(404);
+    throw new Error("Portfolio not found for deleting project");
+  }
+
+  const project = portfolio.projects.id(req.params.projectId);
+
+  if (!project) {
+    res.status(404);
+    throw new Error("Project not found");
+  }
+
+  const projectId = req.params.projectId;
+
+  const filteredProject = portfolio.projects.filter((project) => {
+    return project._id.toString() !== projectId;
+  });
+  portfolio.projects = filteredProject;
+
+  await portfolio.save();
+
+  res.status(200).json({ message: "Project deleted sucessfully" });
 };
 
 /**
@@ -177,7 +225,21 @@ const deleteProject = async (req, res) => {
  * @access	Public
  */
 const getPortfolioByUsername = async (req, res) => {
-  res.send("Get portfolio for all");
+  const user = await UserModel.findOne({ username: req.params.username });
+
+  if (!user) {
+    res.status(404);
+    throw new Error("User not found");
+  }
+
+  const portfolio = await PortfolioModel.findOne({ user: user._id });
+
+  if (!portfolio) {
+    res.status(404);
+    throw new Error("Portfolio not found");
+  }
+
+  res.status(200).json(portfolio);
 };
 
 export {
