@@ -1,11 +1,23 @@
-import Header from "@components/Header";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+
+import Layout from "@components/Layout";
+import Home from "@screens/HomeScreen";
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <Layout />,
+    children: [
+      {
+        index: true,
+        element: <Home />,
+      },
+    ],
+  },
+]);
 
 const App = () => {
-  return (
-    <div className="flex min-h-screen flex-col bg-slate-200">
-      <Header />
-    </div>
-  );
+  return <RouterProvider router={router} />;
 };
 
 export default App;
