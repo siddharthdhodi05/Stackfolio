@@ -7,8 +7,8 @@ import MobileMenuIcon from "./MobileMenuIcon";
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
   return (
-    <header className="fixed w-full bg-white  border-b border-slate-200">
-      <div className="relative z-20 max-w-7xl mx-auto px-6 sm:py-2 lg:px-40">
+    <header className="fixed w-full bg-white  border-b border-slate-200 z-50">
+      <div className="relative z-50 max-w-7xl mx-auto px-6 sm:py-2 lg:px-40">
         <div className="relative h-14 flex items-center justify-between">
           <Logo />
           <DesktopMenu />
