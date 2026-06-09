@@ -12,6 +12,7 @@ export default defineConfig({
     alias: {
       "@components": "/src/components",
       "@screens": "/src/screens",
+      "@slices": "/src/slices",
     },
   },
 });
