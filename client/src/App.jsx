@@ -6,6 +6,8 @@ import ErrorScreen from "@screens/Error";
 import { Provider } from "react-redux";
 import store from "./store";
 import LoginScreen from "@screens/Login";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const router = createBrowserRouter([
   {
@@ -29,6 +31,11 @@ const App = () => {
   return (
     <Provider store={store}>
       <RouterProvider router={router} />;
+      <ToastContainer
+        position="bottom-right"
+        autoClose={5000}
+        hideProgressBar
+      />
     </Provider>
   );
 };
