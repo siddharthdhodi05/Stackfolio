@@ -4,7 +4,8 @@ import Layout from "@components/Layout";
 import Home from "@screens/HomeScreen";
 import ErrorScreen from "@screens/Error";
 import { Provider } from "react-redux";
-import store from "store";
+import store from "./store";
+import LoginScreen from "@screens/Login";
 
 const router = createBrowserRouter([
   {
@@ -15,6 +16,10 @@ const router = createBrowserRouter([
       {
         index: true,
         element: <Home />,
+      },
+      {
+        path: "/login",
+        element: <LoginScreen />,
       },
     ],
   },
