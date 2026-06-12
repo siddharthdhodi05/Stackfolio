@@ -6,15 +6,32 @@ import {
   IdentificationIcon,
   UserIcon,
 } from "@heroicons/react/24/outline";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useLogoutMutation } from "@slices/userApiSlice";
+import { logout } from "@slices/authSlice";
 
 const DesktopMenu = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const { userInfo } = useSelector((state) => state.auth);
 
   const [isOpen, setIsOpen] = useState(false);
   const menuRef = useRef(null);
+
+  const [logoutApiCall] = useLogoutMutation();
+
+  const handleLogout = async () => {
+    try {
+      await logoutApiCall().unwrap();
+      dispatch(logout());
+      navigate("/login");
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   useEffect(() => {
     const handleClickOutside = (e) => {
@@ -29,10 +46,6 @@ const DesktopMenu = () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
-
-  const handleLogout = () => {
-    console.log("Logout");
-  };
 
   return (
     <nav className="hidden items-center sm:ml-6 sm:flex sm:space-x-8">

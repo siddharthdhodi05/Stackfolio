@@ -7,13 +7,28 @@ import {
 } from "@heroicons/react/24/outline";
 
 import MobileMenuItem from "./MobileMenuItem";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { useLogoutMutation } from "@slices/userApiSlice";
+import { logout } from "@slices/authSlice";
 
-const MobileMenu = () => {
-  const userInfo = useSelector((state) => state.auth);
-  const handleLogout = (e) => {
-    e.preventDefault();
-    console.log("logout");
+const MobileMenu = ({ setIsOpen }) => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const [logoutApiCall] = useLogoutMutation();
+
+  const { userInfo } = useSelector((state) => state.auth);
+
+  const handleLogout = async () => {
+    try {
+      await logoutApiCall().unwrap();
+      dispatch(logout());
+      setIsOpen(false);
+      navigate("/login");
+    } catch (error) {
+      console.log(error);
+    }
   };
   return (
     <nav className="relative z-10 w-full overflow-auto bg-white pb-2 sm:max-w-sm">

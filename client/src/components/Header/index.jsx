@@ -16,7 +16,7 @@ const Header = () => {
         </div>
       </div>
       {/* Mobile Menu */}
-      <div>{isOpen && <MobileMenu />}</div>
+      <div>{isOpen && <MobileMenu setIsOpen={setIsOpen} />}</div>
     </header>
   );
 };
