@@ -233,6 +233,7 @@ const getPortfolioByUsername = async (req, res) => {
   }
 
   const portfolio = await PortfolioModel.findOne({ user: user._id });
+  // fix name addition here
 
   if (!portfolio) {
     res.status(404);

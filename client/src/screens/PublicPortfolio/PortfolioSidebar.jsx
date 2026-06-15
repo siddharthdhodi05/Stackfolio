@@ -1,26 +1,13 @@
 import ProfileCard from "@components/PublicPortfolio/ProfileCard";
 import SkillBadge from "@components/PublicPortfolio/SkillBadge";
 
-const PortfolioSidebar = () => {
-  const arr = [
-    "JavaScript",
-    "Node.js",
-    "MongoDB",
-    "Express.js",
-    "PostGrege",
-    "Python",
-    "SQL",
-    "Rust",
-    "C++",
-    "React-Redux",
-    "Data Structure",
-    "System Design",
-  ];
+const PortfolioSidebar = ({ portfolio }) => {
+  const arr = portfolio.skills;
   return (
     <div className="col-span-4 md:col-span-3  sm:sticky sm:top-24 self-start ">
       <div className="bg-white shadow rounded-lg p-6">
         <div className="flex flex-col items-center">
-          <ProfileCard />
+          <ProfileCard portfolio={portfolio} />
           <hr className="my-6 border-t border-gray-300" />
           <div className="flex flex-col">
             <span className="text-gray-700 uppercase font-bold tracking-wider mb-2">
