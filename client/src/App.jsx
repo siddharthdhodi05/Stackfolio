@@ -8,6 +8,7 @@ import store from "./store";
 import LoginScreen from "@screens/Login";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import PublicPortfolioScreen from "@screens/PublicPortfolio";
 
 const router = createBrowserRouter([
   {
@@ -22,6 +23,10 @@ const router = createBrowserRouter([
       {
         path: "/login",
         element: <LoginScreen />,
+      },
+      {
+        path: "/portfolio/:username",
+        element: <PublicPortfolioScreen />,
       },
     ],
   },

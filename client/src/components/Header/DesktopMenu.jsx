@@ -58,7 +58,7 @@ const DesktopMenu = () => {
             icon={IdentificationIcon}
           />
           <MenuItem
-            url={`/${userInfo.username}`}
+            url={`portfolio/${userInfo.username}`}
             label="Public Portfolio"
             icon={GlobeAltIcon}
           />

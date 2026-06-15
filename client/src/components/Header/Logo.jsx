@@ -8,7 +8,7 @@ const Logo = () => {
     >
       <CodeBracketIcon className=" size-6" />
       <span className="text-base font-bold uppercase tracking-normal mt-1 text-slate-950">
-        ShowStack
+        Stackfolio
       </span>
     </Link>
   );
