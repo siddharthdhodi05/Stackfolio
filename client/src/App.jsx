@@ -11,6 +11,7 @@ import "react-toastify/dist/ReactToastify.css";
 import PublicPortfolioScreen from "@screens/PublicPortfolio";
 import Register from "@screens/Register";
 import Profile from "@screens/ProfileScreen";
+import PrivateRoute from "@components/PrivateRoute";
 
 const router = createBrowserRouter([
   {
@@ -34,9 +35,16 @@ const router = createBrowserRouter([
         path: "/register",
         element: <Register />,
       },
+
       {
-        path: "/profile",
-        element: <Profile />,
+        path: "",
+        element: <PrivateRoute />,
+        children: [
+          {
+            path: "/profile",
+            element: <Profile />,
+          },
+        ],
       },
     ],
   },
