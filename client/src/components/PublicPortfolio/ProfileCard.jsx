@@ -5,7 +5,7 @@ const ProfileCard = ({ portfolio }) => {
   return (
     <>
       <img
-        src="https://randomuser.me/api/portraits/men/94.jpg"
+        src={portfolio.image}
         className="w-32 h-32 bg-gray-300 rounded-full mb-4 shrink-0"
       />
       <h1 className="text-xl font-bold">{username}</h1>

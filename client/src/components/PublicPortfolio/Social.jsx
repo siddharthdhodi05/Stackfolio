@@ -1,6 +1,6 @@
 import { FaGithub, FaLinkedin, FaTwitter } from "react-icons/fa";
 import { Link } from "react-router-dom";
-const Social = ({ github, linkedin, twitter }) => {
+const Social = ({ github, linkedIn, twitter }) => {
   return (
     <div>
       <h3 className="font-semibold text-center mt-4 ">Find me on</h3>
@@ -16,9 +16,9 @@ const Social = ({ github, linkedin, twitter }) => {
           </Link>
         )}
 
-        {linkedin && (
+        {linkedIn && (
           <Link
-            to={linkedin}
+            to={linkedIn}
             target="_blank"
             rel="noopener noreferrer"
             className="text-gray-600 hover:text-blue-600 transition-colors"

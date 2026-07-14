@@ -10,8 +10,8 @@ const PortfolioContent = ({ portfolio }) => {
         <AboutMe description={portfolio.description} />
         <Social
           github={portfolio.socials.github}
-          twitter={portfolio.socials.linkedIn}
-          linkedin={portfolio.socials.twitter}
+          twitter={portfolio.socials.twitter}
+          linkedIn={portfolio.socials.linkedIn}
         />
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
           {projects.map((project) => (

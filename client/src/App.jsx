@@ -12,6 +12,7 @@ import PublicPortfolioScreen from "@screens/PublicPortfolio";
 import Register from "@screens/Register";
 import Profile from "@screens/ProfileScreen";
 import PrivateRoute from "@components/PrivateRoute";
+import MyPortfolio from "@screens/MyPortfolioScreen";
 
 const router = createBrowserRouter([
   {
@@ -43,6 +44,10 @@ const router = createBrowserRouter([
           {
             path: "/profile",
             element: <Profile />,
+          },
+          {
+            path: "/MyPortfolio",
+            element: <MyPortfolio />,
           },
         ],
       },

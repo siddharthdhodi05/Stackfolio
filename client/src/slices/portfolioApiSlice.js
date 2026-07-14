@@ -10,7 +10,34 @@ export const portfolioApiSlice = apiSlice.injectEndpoints({
       keepUnusedDataFor: 5,
       providesTags: ["Portfolio"],
     }),
+    getPortfolio: builder.query({
+      query: () => ({
+        url: `${PORTFOLIO_URL}/me`,
+      }),
+      keepUnusedDataFor: 5,
+      providesTags: ["Portfolio"],
+    }),
+    updatePortfolio: builder.mutation({
+      query: (credentials) => ({
+        url: `${PORTFOLIO_URL}/`,
+        method: "Put",
+        body: credentials,
+      }),
+    }),
+
+    uploadImage: builder.mutation({
+      query: (data) => ({
+        url: "upload",
+        method: "POST",
+        body: data,
+      }),
+    }),
   }),
 });
 
-export const { useGetPublicPortfolioQuery } = portfolioApiSlice;
+export const {
+  useGetPublicPortfolioQuery,
+  useGetPortfolioQuery,
+  useUpdatePortfolioMutation,
+  useUploadImageMutation,
+} = portfolioApiSlice;
