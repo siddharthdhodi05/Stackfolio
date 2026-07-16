@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import SkillBadge from "./SkillBadge";
 import { useUploadImageMutation } from "@slices/portfolioApiSlice";
 
-const PortfolioForm = ({ portfolio, onSubmit }) => {
+const PortfolioForm = ({ portfolio, onSubmit, loadingUpdatePortfolio }) => {
   // upload logic
   const [uploadImage, { isLoading: uploading }] = useUploadImageMutation();
   const [image, setImage] = useState("");
@@ -61,16 +61,7 @@ const PortfolioForm = ({ portfolio, onSubmit }) => {
 
   const submitHandler = (e) => {
     e.preventDefault();
-    console.log({
-      role,
-      description,
-      skills,
-      socials: {
-        github,
-        linkedIn,
-        twitter,
-      },
-    });
+
     onSubmit({
       role,
       description,
@@ -228,7 +219,11 @@ const PortfolioForm = ({ portfolio, onSubmit }) => {
                 type="submit"
                 className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
               >
-                {uploading ? "Uploading" : "Update"}
+                {uploading
+                  ? "Uploading"
+                  : loadingUpdatePortfolio
+                    ? "Updating..."
+                    : "Update"}
               </button>
             </div>
           </div>

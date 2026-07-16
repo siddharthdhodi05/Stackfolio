@@ -3,12 +3,19 @@ import {
   useUpdatePortfolioMutation,
 } from "@slices/portfolioApiSlice";
 import PortfolioForm from "./PortfolioForm";
+import { toast } from "react-toastify";
 
 const MyPortfolio = () => {
   const { data: portfolio } = useGetPortfolioQuery();
-  const [updatePortfolio] = useUpdatePortfolioMutation();
+  const [updatePortfolio, { isLoading: loadingUpdatePortfolio }] =
+    useUpdatePortfolioMutation();
   const submitHandler = async (formData) => {
-    await updatePortfolio(formData);
+    try {
+      await updatePortfolio(formData).unwrap();
+      toast.success("Portfolio updated");
+    } catch (error) {
+      toast.error(error.data.message);
+    }
   };
 
   return (
@@ -19,7 +26,11 @@ const MyPortfolio = () => {
             <div className=" text-4xl font-bold text-blue-900">
               Update Your Portfolio
             </div>
-            <PortfolioForm onSubmit={submitHandler} portfolio={portfolio} />
+            <PortfolioForm
+              onSubmit={submitHandler}
+              portfolio={portfolio}
+              loadingUpdatePortfolio={loadingUpdatePortfolio}
+            />
           </div>
           <div className="text-4xl col-span-4  sm:col-span-8">Column 2</div>
         </div>
