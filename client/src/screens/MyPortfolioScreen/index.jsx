@@ -4,11 +4,13 @@ import {
 } from "@slices/portfolioApiSlice";
 import PortfolioForm from "./PortfolioForm";
 import { toast } from "react-toastify";
+import MyProjects from "./MyProjects";
 
 const MyPortfolio = () => {
   const { data: portfolio } = useGetPortfolioQuery();
   const [updatePortfolio, { isLoading: loadingUpdatePortfolio }] =
     useUpdatePortfolioMutation();
+
   const submitHandler = async (formData) => {
     try {
       await updatePortfolio(formData).unwrap();
@@ -22,7 +24,8 @@ const MyPortfolio = () => {
     <div className="bg-white">
       <div className=" container mx-auto py-8">
         <div className="grid grid-cols-4 sm:grid-cols-12 gap-6 px-4">
-          <div className="text-2xl col-span-4 sm:col-span-4">
+          <div className="text-2xl col-span-4 md:col-span-3">
+            {/* {col-span-3 sm:col-span-4} */}
             <div className=" text-4xl font-bold text-blue-900">
               Update Your Portfolio
             </div>
@@ -32,7 +35,9 @@ const MyPortfolio = () => {
               loadingUpdatePortfolio={loadingUpdatePortfolio}
             />
           </div>
-          <div className="text-4xl col-span-4  sm:col-span-8">Column 2</div>
+          <div className="col-span-4  sm:col-span-9">
+            <MyProjects projects={portfolio?.projects || []} />
+          </div>
         </div>
       </div>
     </div>

@@ -1,8 +1,32 @@
 import { Link } from "react-router-dom";
 
-const ProjectCard = ({ project }) => {
+const ProjectCard = ({
+  project,
+  showActions = false,
+  onDelete,
+  onEdit,
+  loadingDeleteProject,
+}) => {
   return (
-    <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden transition-all duration-300 hover:-translate-y-2 hover:shadow-xl">
+    <div className="relative bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden transition-all duration-300 hover:-translate-y-2 hover:shadow-xl">
+      {showActions && (
+        <div className="absolute top-3 right-3 flex gap-2 z-10">
+          <button
+            className="rounded-md bg-blue-600 px-3 py-1 text-sm text-white shadow hover:bg-blue-700"
+            onClick={() => onEdit(project._id)}
+          >
+            Edit
+          </button>
+
+          <button
+            disabled={loadingDeleteProject}
+            className="rounded-md bg-blue-600 px-3 py-1 text-sm text-white shadow hover:bg-blue-700"
+            onClick={() => onDelete(project._id)}
+          >
+            Delete
+          </button>
+        </div>
+      )}
       <Link to={`/project/${project._id}`}>
         <img
           src={project.projectImage}

@@ -32,6 +32,14 @@ export const portfolioApiSlice = apiSlice.injectEndpoints({
         body: data,
       }),
     }),
+
+    deleteProject: builder.mutation({
+      query: (projectId) => ({
+        url: `${PORTFOLIO_URL}/projects/${projectId}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["Portfolio"],
+    }),
   }),
 });
 
@@ -40,4 +48,5 @@ export const {
   useGetPortfolioQuery,
   useUpdatePortfolioMutation,
   useUploadImageMutation,
+  useDeleteProjectMutation,
 } = portfolioApiSlice;
