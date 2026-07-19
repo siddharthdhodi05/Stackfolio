@@ -1,4 +1,5 @@
 import {
+  useCreatePortfolioMutation,
   useGetPortfolioQuery,
   useUpdatePortfolioMutation,
 } from "@slices/portfolioApiSlice";
@@ -11,10 +12,20 @@ const MyPortfolio = () => {
   const [updatePortfolio, { isLoading: loadingUpdatePortfolio }] =
     useUpdatePortfolioMutation();
 
+  const [createPortfolio, { isLoading: loadingCreatePortfolio }] =
+    useCreatePortfolioMutation();
+
+  const isEditMode = Boolean(portfolio?._id);
+
   const submitHandler = async (formData) => {
     try {
-      await updatePortfolio(formData).unwrap();
-      toast.success("Portfolio updated");
+      if (isEditMode) {
+        await updatePortfolio(formData).unwrap();
+        toast.success("Portfolio updated");
+      } else {
+        await createPortfolio(formData).unwrap();
+        toast.success("Portfolio created");
+      }
     } catch (error) {
       toast.error(error.data.message);
     }
@@ -32,7 +43,9 @@ const MyPortfolio = () => {
             <PortfolioForm
               onSubmit={submitHandler}
               portfolio={portfolio}
-              loadingUpdatePortfolio={loadingUpdatePortfolio}
+              loadingUpdatePortfolio={
+                loadingUpdatePortfolio || loadingCreatePortfolio
+              }
             />
           </div>
           <div className="col-span-4  sm:col-span-9">

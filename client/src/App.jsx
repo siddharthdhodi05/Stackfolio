@@ -13,6 +13,7 @@ import Register from "@screens/Register";
 import Profile from "@screens/ProfileScreen";
 import PrivateRoute from "@components/PrivateRoute";
 import MyPortfolio from "@screens/MyPortfolioScreen";
+import AddProject from "@screens/AddProjectScreen";
 
 const router = createBrowserRouter([
   {
@@ -48,6 +49,10 @@ const router = createBrowserRouter([
           {
             path: "/MyPortfolio",
             element: <MyPortfolio />,
+          },
+          {
+            path: "/project/new",
+            element: <AddProject />,
           },
         ],
       },

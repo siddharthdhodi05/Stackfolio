@@ -1,5 +1,6 @@
 import ProjectCard from "@components/PublicPortfolio/ProjectCard";
 import { useDeleteProjectMutation } from "@slices/portfolioApiSlice";
+import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 
 const MyProjects = ({ projects }) => {
@@ -25,15 +26,19 @@ const MyProjects = ({ projects }) => {
         My projects
       </div>
       <div className="flex justify-center my-10">
-        {!(projects.length >= 6) && (
-          <button className="w-full mx-40 py-1.5 bg-blue-500 text-white rounded-2xl">
+        {projects.length < 6 && (
+          <Link
+            to={"/project/new"}
+            className="mx-40 flex w-full justify-center rounded-2xl bg-blue-500 py-2 text-white hover:bg-blue-600"
+          >
             Add Project
-          </button>
+          </Link>
         )}
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
         {projects.map((project) => (
           <ProjectCard
+            loadingDeleteProject={loadingDeleteProject}
             key={project._id}
             onDelete={handleDelete}
             showActions

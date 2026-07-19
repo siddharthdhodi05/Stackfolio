@@ -40,6 +40,23 @@ export const portfolioApiSlice = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ["Portfolio"],
     }),
+
+    createPortfolio: builder.mutation({
+      query: (data) => ({
+        url: `${PORTFOLIO_URL}/`,
+        method: "POST",
+        body: data,
+      }),
+      invalidatesTags: ["Portfolio"],
+    }),
+    createProject: builder.mutation({
+      query: (data) => ({
+        url: `${PORTFOLIO_URL}/projects`,
+        method: "POST",
+        body: data,
+      }),
+      invalidatesTags: ["Portfolio"],
+    }),
   }),
 });
 
@@ -49,4 +66,6 @@ export const {
   useUpdatePortfolioMutation,
   useUploadImageMutation,
   useDeleteProjectMutation,
+  useCreateProjectMutation,
+  useCreatePortfolioMutation,
 } = portfolioApiSlice;

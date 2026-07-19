@@ -1,50 +1,45 @@
-import { useEffect, useState } from "react";
-import SkillBadge from "../../components/MyPortfolio/SkillBadge";
+import { useState } from "react";
+import SkillBadge from "./SkillBadge";
 import { useUploadImageMutation } from "@slices/portfolioApiSlice";
 
-const PortfolioForm = ({
-  portfolio,
-  onSubmit,
-  loadingUpdatePortfolio,
-  loadingCreatePortfolio,
-}) => {
-  // upload logic
+const ProjectForm = ({ onSubmit, loadingCreateProject }) => {
   const [uploadImage, { isLoading: uploading }] = useUploadImageMutation();
-  const [image, setImage] = useState("");
+
+  // form Logic
+  const [projectName, setProjectName] = useState("");
+  const [projectDescription, setProjectDescription] = useState("");
+  const [projectStack, setProjectStack] = useState([]);
+  const [github, setGitHub] = useState([]);
+  const [liveLink, setLiveLink] = useState([]);
+  const [projectImage, setProjectImage] = useState("");
+
+  // upload logic
 
   const handleUploadImage = async (e) => {
     const formData = new FormData();
 
     const file = e.target.files[0];
-
     if (!file) return;
 
     formData.append("file", file);
-
     const result = await uploadImage(formData).unwrap();
-
-    setImage(result.image);
+    setProjectImage(result.image);
   };
 
-  // form logic
-  const [role, setRole] = useState("");
-  const [skills, setSkills] = useState([]);
-  const [description, setDescription] = useState("");
-  const [github, setGitHub] = useState("");
-  const [linkedIn, setLinkedIn] = useState("");
-  const [twitter, setTwitter] = useState("");
+  const submitHandler = (e) => {
+    e.preventDefault();
 
-  useEffect(() => {
-    if (portfolio) {
-      setRole(portfolio.role);
-      setSkills(portfolio.skills);
-      setDescription(portfolio.description);
-      setGitHub(portfolio.socials.github);
-      setLinkedIn(portfolio.socials.linkedIn);
-      setTwitter(portfolio.socials.twitter);
-      setImage(portfolio.image);
-    }
-  }, [portfolio]);
+    onSubmit({
+      projectName,
+      projectDescription,
+      projectImage,
+      github,
+      liveLink,
+      projectStack,
+    });
+  };
+
+  // skill adding logic
 
   const [skillInput, setSkillInput] = useState("");
 
@@ -53,38 +48,23 @@ const PortfolioForm = ({
 
     if (!skill) return;
 
-    if (skills.includes(skill)) return;
+    if (projectStack.includes(skill)) return;
 
-    setSkills([...skills, skill]);
+    setProjectStack([...projectStack, skill]);
 
     setSkillInput("");
   };
 
   const removeSkill = (skillToRemove) => {
-    setSkills(skills.filter((skill) => skill != skillToRemove));
+    setProjectStack(projectStack.filter((skill) => skill != skillToRemove));
   };
 
-  const submitHandler = (e) => {
-    e.preventDefault();
-
-    onSubmit({
-      role,
-      description,
-      skills,
-      image,
-      socials: {
-        github,
-        linkedIn,
-        twitter,
-      },
-    });
-  };
   return (
-    <form className="mx-auto mt-10 max-w-3xl" onSubmit={submitHandler}>
+    <form onSubmit={submitHandler} className="mx-auto max-w-3xl ">
       <div className="space-y-12">
         <div className="border-b border-gray-900/10 pb-12">
           <div className="mt-5 grid grid-cols-1 gap-x-6 gap-y-6 sm:grid-cols-6">
-            {/* Image */}
+            {/* Project Image */}
             <div className="sm:col-span-full">
               <label
                 htmlFor="image"
@@ -93,9 +73,9 @@ const PortfolioForm = ({
                 Image
               </label>
               <div className="mt-2">
-                {image ? (
+                {projectImage ? (
                   <img
-                    src={image}
+                    src={projectImage}
                     className="w-32 h-32 bg-gray-300 rounded-full mb-4 shrink-0"
                     alt="Portfolio"
                   />
@@ -112,39 +92,39 @@ const PortfolioForm = ({
                 />
               </div>
             </div>
-            {/* titile */}
+            {/* Project Name */}
             <div className="sm:col-span-full">
               <label className="block text-sm font-medium leading-6 text-gray-900">
-                Role
+                Project Name
               </label>
               <div>
                 <input
-                  value={role}
-                  onChange={(e) => setRole(e.target.value)}
+                  value={projectName}
+                  onChange={(e) => setProjectName(e.target.value)}
                   type="text"
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
               </div>
             </div>
-            {/* About me*/}
+            {/* Project Description*/}
             <div className="sm:col-span-full">
               <label className="block text-sm font-medium leading-6 text-gray-900">
-                About Me
+                Description
               </label>
               <div className="flex gap-2">
                 <textarea
                   rows={5}
-                  value={description}
-                  onChange={(e) => setDescription(e.target.value)}
+                  value={projectDescription}
+                  onChange={(e) => setProjectDescription(e.target.value)}
                   type="text"
                   className=" block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
               </div>
             </div>
-            {/* Skills */}
+            {/* Project Stack */}
             <div className="sm:col-span-full">
               <label className="block text-sm font-medium leading-6 text-gray-900">
-                Skills
+                Project Stack
               </label>
               <div className="flex gap-2">
                 <input
@@ -165,7 +145,7 @@ const PortfolioForm = ({
             </div>
             <div className="sm:col-span-full border min-h-32 max-h-32 p-6 rounded-lg overflow-auto ">
               <div className="flex flex-wrap gap-2">
-                {skills.map((skill) => (
+                {projectStack.map((skill) => (
                   <SkillBadge
                     key={skill}
                     skill={skill}
@@ -188,47 +168,31 @@ const PortfolioForm = ({
                 />
               </div>
             </div>
-
             <div className="sm:col-span-full">
               <label className="block text-sm font-medium leading-6 text-gray-900">
-                LinkedIn
+                liveLink
               </label>
               <div>
                 <input
-                  value={linkedIn}
-                  onChange={(e) => setLinkedIn(e.target.value)}
-                  placeholder="Place your LinkedIn link here"
+                  value={liveLink}
+                  onChange={(e) => setLiveLink(e.target.value)}
+                  placeholder="Paste your gitHub link here"
                   type="text"
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                />
-              </div>
-            </div>
-
-            <div className="sm:col-span-full">
-              <label className="block text-sm font-medium leading-6 text-gray-900">
-                Twitter
-              </label>
-              <div>
-                <input
-                  value={twitter}
-                  onChange={(e) => setTwitter(e.target.value)}
-                  type="text"
-                  placeholder="Paste your twitter here"
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
               </div>
             </div>
             <div className="mt-6 flex items-center  gap-x-6">
               <button
-                disabled={uploading}
+                disabled={null}
                 type="submit"
                 className="rounded-md bg-indigo-600  px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
               >
                 {uploading
                   ? "Uploading"
-                  : loadingUpdatePortfolio || loadingCreatePortfolio
-                    ? "Submitting..."
-                    : "Submit"}
+                  : loadingCreateProject
+                    ? "Creating..."
+                    : "Add"}
               </button>
             </div>
           </div>
@@ -238,4 +202,4 @@ const PortfolioForm = ({
   );
 };
 
-export default PortfolioForm;
+export default ProjectForm;
