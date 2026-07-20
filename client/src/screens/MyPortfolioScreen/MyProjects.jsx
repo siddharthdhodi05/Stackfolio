@@ -1,11 +1,13 @@
 import ProjectCard from "@components/PublicPortfolio/ProjectCard";
 import { useDeleteProjectMutation } from "@slices/portfolioApiSlice";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 const MyProjects = ({ projects }) => {
   const [deleteProject, { isLoading: loadingDeleteProject }] =
     useDeleteProjectMutation();
+
+  const navigate = useNavigate();
 
   const handleDelete = async (projectId) => {
     const confirmed = window.confirm(
@@ -20,6 +22,15 @@ const MyProjects = ({ projects }) => {
       toast.error(error.data.message);
     }
   };
+
+  const handleEdit = async (projectId) => {
+    try {
+      await navigate(`/MyPortfolio/project/${projectId}`);
+    } catch (error) {
+      toast.error(error.data.message);
+    }
+  };
+
   return (
     <div>
       <div className="text-4xl font-bold text-blue-900 text-center">
@@ -43,6 +54,7 @@ const MyProjects = ({ projects }) => {
             onDelete={handleDelete}
             showActions
             project={project}
+            onEdit={handleEdit}
           />
         ))}
       </div>

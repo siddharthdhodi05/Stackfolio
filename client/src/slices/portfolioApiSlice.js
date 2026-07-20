@@ -57,6 +57,15 @@ export const portfolioApiSlice = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ["Portfolio"],
     }),
+
+    updateProject: builder.mutation({
+      query: ({ projectId, formData }) => ({
+        url: `${PORTFOLIO_URL}/projects/${projectId}`,
+        method: "PUT",
+        body: formData,
+      }),
+      invalidatesTags: ["Portfolio"],
+    }),
   }),
 });
 
@@ -68,4 +77,5 @@ export const {
   useDeleteProjectMutation,
   useCreateProjectMutation,
   useCreatePortfolioMutation,
+  useUpdateProjectMutation,
 } = portfolioApiSlice;

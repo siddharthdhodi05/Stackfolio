@@ -1,17 +1,28 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import SkillBadge from "./SkillBadge";
 import { useUploadImageMutation } from "@slices/portfolioApiSlice";
 
-const ProjectForm = ({ onSubmit, loadingCreateProject }) => {
+const ProjectForm = ({ onSubmit, loading, project }) => {
   const [uploadImage, { isLoading: uploading }] = useUploadImageMutation();
 
   // form Logic
   const [projectName, setProjectName] = useState("");
   const [projectDescription, setProjectDescription] = useState("");
   const [projectStack, setProjectStack] = useState([]);
-  const [github, setGitHub] = useState([]);
-  const [liveLink, setLiveLink] = useState([]);
+  const [github, setGitHub] = useState("");
+  const [liveLink, setLiveLink] = useState("");
   const [projectImage, setProjectImage] = useState("");
+
+  useEffect(() => {
+    if (!project) return;
+
+    setProjectName(project.projectName);
+    setProjectDescription(project.projectDescription);
+    setProjectImage(project.projectImage);
+    setProjectStack(project.projectStack);
+    setGitHub(project.github);
+    setLiveLink(project.liveLink);
+  }, [project]);
 
   // upload logic
 
@@ -188,11 +199,7 @@ const ProjectForm = ({ onSubmit, loadingCreateProject }) => {
                 type="submit"
                 className="rounded-md bg-indigo-600  px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
               >
-                {uploading
-                  ? "Uploading"
-                  : loadingCreateProject
-                    ? "Creating..."
-                    : "Add"}
+                {uploading ? "Uploading" : loading ? "Creating..." : "Add"}
               </button>
             </div>
           </div>

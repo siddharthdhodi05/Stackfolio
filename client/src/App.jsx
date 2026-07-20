@@ -14,6 +14,7 @@ import Profile from "@screens/ProfileScreen";
 import PrivateRoute from "@components/PrivateRoute";
 import MyPortfolio from "@screens/MyPortfolioScreen";
 import AddProject from "@screens/AddProjectScreen";
+import EditProject from "@screens/EditProjectScreen";
 
 const router = createBrowserRouter([
   {
@@ -53,6 +54,10 @@ const router = createBrowserRouter([
           {
             path: "/project/new",
             element: <AddProject />,
+          },
+          {
+            path: "MyPortfolio/project/:projectId",
+            element: <EditProject />,
           },
         ],
       },

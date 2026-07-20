@@ -22,10 +22,7 @@ const AddProject = () => {
         <div className=" text-4xl font-bold text-blue-900">
           Add your Project
         </div>
-        <ProjectForm
-          onSubmit={submitHandler}
-          loadingCreateProject={loadingCreateProject}
-        />
+        <ProjectForm onSubmit={submitHandler} loading={loadingCreateProject} />
       </div>
     </div>
   );
