@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import morgan from "morgan";
 import colors from "colors";
 import cookieParser from "cookie-parser";
+import cors from "cors";
 
 import connectDB from "#config/db.config.js";
 import { errorHandler } from "#middleware/error.middleware.js";
@@ -27,6 +28,13 @@ connectDB();
 
 cloudinary.config();
 
+app.use(
+  cors({
+    origin: ["http://localhost:3000", "https://stackfolio-five.vercel.app"],
+    credentials: true,
+  }),
+);
+
 app.use(express.json()); //Request body parsing
 app.use(cookieParser());
 app.use("/api/v1/users", userRoutes);
@@ -37,13 +45,6 @@ app.use(errorHandler);
 app.get("/", (req, res) => {
   res.send("API is running... ");
 });
-
-app.use(
-  cors({
-    origin: ["http://localhost:3000", "https://stackfolio-five.vercel.app/"],
-    credentials: true,
-  }),
-);
 
 app.listen(port, () => {
   console.log(
