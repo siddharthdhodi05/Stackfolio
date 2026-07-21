@@ -38,6 +38,13 @@ app.get("/", (req, res) => {
   res.send("API is running... ");
 });
 
+app.use(
+  cors({
+    origin: ["http://localhost:3000", "https://stackfolio-five.vercel.app/"],
+    credentials: true,
+  }),
+);
+
 app.listen(port, () => {
   console.log(
     `Server is running in ${process.env.NODE_ENV} mode on port ${port}`.yellow
