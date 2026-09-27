@@ -136,11 +136,6 @@ showStack/
 │   ├── addProject.png
 │   ├── myPortfolio.png
 │   ├── publicportfolio.png
-│   ├── Screenshot From 2026-09-21 17-55-54.png
-│   ├── Screenshot From 2026-09-21 18-32-11.png
-│   ├── Screenshot From 2026-09-21 18-39-41.png
-│   ├── Screenshot From 2026-09-27 21-23-57.png
-│   └── datesss.png
 ├── jsconfig.json
 ├── package.json
 └── package-lock.json
